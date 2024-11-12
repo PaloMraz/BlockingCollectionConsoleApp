@@ -21,8 +21,8 @@ for (int i = 0; i < collection.BoundedCapacity; i++)
 }
 sw.Stop();
 
-// The following will alway print in Red meaning the elapsed time is always greater than the max expected time.
-// Event the more interesting thing is that under debugger, the times are in the range of 3.5 - 4 seconds,
+// The following will always print in Red meaning the elapsed time is always greater than the max expected time.
+// Even the more interesting thing is that under debugger, the times are in the range of 3.2 - 4 seconds,
 // while when running without debugger, the times are in the range of 15 - 16 seconds!
 int maxExpectedMilliseconds = 2 * collection.BoundedCapacity;
 Console.ForegroundColor = (sw.ElapsedMilliseconds <= maxExpectedMilliseconds) ? ConsoleColor.Green : ConsoleColor.Red;
