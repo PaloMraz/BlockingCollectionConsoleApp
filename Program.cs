@@ -12,19 +12,20 @@ Thread backgroundThread = new Thread(BackgroundThreadDelegate)
 };
 backgroundThread.Start(parameter: (stoppingCancellationTokenSource.Token, collection));
 
-// Measure the time it takes to add items to the collection with one millisecond delay between Adds.
+// Measure the time it takes to add items to the collection with one given delay between Adds.
+int delayBetweenAddsInMilliseconds = 15;
 var sw = Stopwatch.StartNew();
 for (int i = 0; i < collection.BoundedCapacity; i++)
 {
   collection.Add(i);
-  await Task.Delay(millisecondsDelay: 1); 
+  await Task.Delay(millisecondsDelay: delayBetweenAddsInMilliseconds); 
 }
 sw.Stop();
 
 // The following will always print in Red meaning the elapsed time is always greater than the max expected time.
 // Even the more interesting thing is that under debugger, the times are in the range of 3.2 - 4 seconds,
 // while when running without debugger, the times are in the range of 15 - 16 seconds!
-int maxExpectedMilliseconds = 2 * collection.BoundedCapacity;
+int maxExpectedMilliseconds = (2 * collection.BoundedCapacity) * delayBetweenAddsInMilliseconds;
 Console.ForegroundColor = (sw.ElapsedMilliseconds <= maxExpectedMilliseconds) ? ConsoleColor.Green : ConsoleColor.Red;
 Console.WriteLine($"Elapsed milliseconds: {sw.ElapsedMilliseconds}, Max. expected milliseconds: {maxExpectedMilliseconds}");
 
